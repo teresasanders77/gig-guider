@@ -6,6 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model ShouldITakeThis {
+ id   String @id @default(auto()) @map("_id") @db.ObjectId
+ idealHourlyRate Int
+ gigPayment Int
+ gigHours Int
+ mileage Int
+ babysittingHours Int
+ babysittingHourlyRate Int
 }

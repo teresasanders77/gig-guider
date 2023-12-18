@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 interface Params {
   answer: string;
@@ -40,7 +40,14 @@ export const loader = async ({ params }: { params: Params }) => {
 
 const Answer = () => {
   const { response } = useLoaderData<typeof loader>();
-  return <div>{response}</div>;
+  return (
+    <div>
+      <h2 className="text-center mt-10 font-bold text-lg">{response}</h2>
+      <Link to="/summary" className="text-center mt-10">
+        See Details
+      </Link>
+    </div>
+  );
 };
 
 export default Answer;
