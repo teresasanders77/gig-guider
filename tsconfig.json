@@ -4,19 +4,17 @@
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
+    "jsx": "react-jsx", // Assuming you have the `@jsxImportSource` pragma in your files
+    "moduleResolution": "Bundler", // This setting may be specific to Remix, check Remix documentation
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
-    "allowJs": true,
+    "allowJs": true, // Allowing JavaScript files in TypeScript project
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    "baseUrl": ".", // Setting the base directory for module resolution
     "paths": {
       "~/*": ["./app/*"]
     },
-
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true
+    "noEmit": true // Not emitting any JavaScript files as Remix takes care of the build
   }
 }
