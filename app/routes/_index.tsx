@@ -57,6 +57,10 @@ export const action: ActionFunction = async ({ request }) => {
 
     // console.log("answer: ", answer);
     return redirect("/answer/" + answer + "?" + queryParams);
+  } else if (_action === "whatToCharge") {
+    const queryParams = new URLSearchParams(formData).toString();
+    console.log("queryParams: ", queryParams);
+    return redirect("/charge/?" + queryParams);
   }
 };
 

@@ -1,51 +1,10 @@
-import { json } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useSearchParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
-interface Params {
-  answer: string;
-}
-
-export const loader = async ({ params }: { params: Params }) => {
-  const { answer } = params;
-  const yesResponses = [
-    "Finally, someone pays you what you're worth!",
-    "Go give these people a hug, they respect you!",
-    "Cha-ching! Your bank account is about to do the happy dance!",
-    "Oh, honey, the only thing better than your talent is that paycheck!",
-    "Without a doubt! The only thing hotter than the stage lights will be your bank balance.",
-    "Hell yes! Your talent is like a fine wine — it only gets better with a generous paycheck.",
-    "Yes, and the applause will be music to your ears, but the paycheck will be a symphony!",
-  ];
-  const noResponses = [
-    "Wanna pay your insurance this onth? Better not take this gig...",
-    "People don't value musicians, do they...",
-    "If you want to do charity, then go for it!",
-    "Oh, sweetie, even Cinderella had a better deal. You should pass.",
-    "Nope! You don't work for peanuts; You prefer cashews at the very least.",
-    "Hard pass! Your talent deserves a stage that pays its electricity bill.",
-    "Sorry, but exposure doesn't pay the bills, darling.",
-    "Not in a million years! I'd need a magnifying glass to see that paycheck.",
-    "Absolutely not! You've got a reputation to uphold, and it's not in the discount aisle.",
-    "Hell no! Even my shadow demands a higher rate than that.",
-  ];
-  // Get a random index
-  const randomIndex =
-    answer == "yes"
-      ? Math.floor(Math.random() * yesResponses.length)
-      : Math.floor(Math.random() * noResponses.length);
-  const returnedResponse =
-    answer == "yes" ? yesResponses[randomIndex] : noResponses[randomIndex];
-  return json({ response: returnedResponse });
-};
-
-const Answer = () => {
-  const { response } = useLoaderData<typeof loader>();
+const Charge = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const idealHourlyRate = searchParams.get("idealHourlyRate");
-  console.log("idealHourlyRate", idealHourlyRate);
-  const gigPayment = searchParams.get("gigPayment");
-  // console.log("gigPayment", gigPayment);
+  //   console.log("idealHourlyRate", idealHourlyRate);
   const gigHours = searchParams.get("gigHours");
   // console.log("gigHours", gigHours);
   const mileage = searchParams.get("mileage");
@@ -56,6 +15,7 @@ const Answer = () => {
   // console.log("babysittingHourlyRate", babysittingHourlyRate);
 
   const [details, toggleDetails] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const scrollToElement = (id) => {
     const element = document.getElementById(id);
@@ -68,10 +28,26 @@ const Answer = () => {
     details ? scrollToElement("details") : null;
   }, [details]);
 
+  useEffect(() => {
+    const gasCost = Number(Number(mileage) * 2) * 0.67;
+    // console.log("gasCost: ", gasCost);
+    const babysittingCost =
+      Number(babysittingHours) * Number(babysittingHourlyRate);
+    // console.log("babysittingCost: ", babysittingCost);
+    const totalCost = gasCost + babysittingCost;
+    // console.log("totalCost: ", totalCost);
+    const hopefulIncomePreExpense = Number(idealHourlyRate) * Number(gigHours);
+    // console.log("hopefulIncomePreExpense: ", hopefulIncomePreExpense);
+    setTotal(hopefulIncomePreExpense + totalCost);
+    // console.log("hopefulIncomeTotal: ", hopefulIncomeTotal);
+  }, []);
+
   return (
     <>
       <div className="h-screen">
-        <h2 className="text-center mt-10 font-bold text-lg">{response}</h2>
+        <h2 className="text-center mt-10 font-bold text-lg">
+          We recommend you charge: ${total}
+        </h2>
         <button
           onClick={() => {
             toggleDetails(true);
@@ -87,10 +63,6 @@ const Answer = () => {
           <p>
             Ideal Hourly Rate:
             <span className="font-bold">${idealHourlyRate}</span>
-          </p>
-          <p>
-            Gig Payment:
-            <span className="font-bold">${gigPayment}</span>
           </p>
           <p>
             Gig Hours:
@@ -145,26 +117,10 @@ const Answer = () => {
                   Number(babysittingHours) * Number(babysittingHourlyRate))}
             </span>
           </p>
-          <p>
-            Difference (Gig Payment - Hopeful Income Total):
-            <span className="font-bold">
-              $
-              {Number(gigPayment) -
-                (Number(idealHourlyRate) * Number(gigHours) +
-                  (Number(Number(mileage) * 2) * 0.67 +
-                    Number(babysittingHours) * Number(babysittingHourlyRate)))}
-            </span>
-          </p>
-          <h2 className="mt-10">
-            To make this gig worth it, we recommend you charge:
-            {Number(idealHourlyRate) * Number(gigHours) +
-              (Number(Number(mileage) * 2) * 0.67 +
-                Number(babysittingHours) * Number(babysittingHourlyRate))}
-          </h2>
         </div>
       )}
     </>
   );
 };
 
-export default Answer;
+export default Charge;

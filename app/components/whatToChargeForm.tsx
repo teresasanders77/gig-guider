@@ -1,40 +1,27 @@
-import { Form } from "@remix-run/react";
-
 const WhatToChargeForm = () => {
   return (
     <div className="w-full">
-      <div className="text-center text-xl">What Should I Charge?</div>
+      <div className="text-center text-xl">
+        What Should I Charge For This Gig?
+      </div>
       <div className="w-full max-w-lg my-0 mx-auto">
-        <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="idealHourlyRate"
-            >
-              Ideal Hourly Rate
-            </label>
-            <input
-              className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="idealHourlyRate"
-              name="idealHourlyRate"
-              type="number"
-              placeholder="$"
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="gigPayment"
-            >
-              Gig Payment
-            </label>
-            <input
-              className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="gigPayment"
-              name="gigPayment"
-              type="number"
-              placeholder="$"
-            />
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="idealHourlyRate"
+              >
+                Ideal Hourly Rate (after expenses)
+              </label>
+              <input
+                className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="idealHourlyRate"
+                name="idealHourlyRate"
+                type="number"
+                placeholder="$"
+              />
+            </div>
           </div>
           <div className="mb-6">
             <label
@@ -54,14 +41,14 @@ const WhatToChargeForm = () => {
           <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="gigDrivingTime"
+              htmlFor="mileage"
             >
-              Driving Time
+              Mileage (One way)
             </label>
             <input
               className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="gigDrivingTime"
-              name="gigDrivingTime"
+              id="mileage"
+              name="mileage"
               type="number"
               placeholder=""
             />
@@ -99,12 +86,14 @@ const WhatToChargeForm = () => {
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
+              name="_action"
+              value="whatToCharge"
             >
               Submit
             </button>
           </div>
-        </Form>
+        </div>
       </div>
     </div>
   );
