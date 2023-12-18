@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useEffect, useState } from "react";
 
 interface Params {
   answer: string;
@@ -40,13 +41,76 @@ export const loader = async ({ params }: { params: Params }) => {
 
 const Answer = () => {
   const { response } = useLoaderData<typeof loader>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const idealHourlyRate = searchParams.get("idealHourlyRate");
+  console.log("idealHourlyRate", idealHourlyRate);
+  const gigPayment = searchParams.get("gigPayment");
+  // console.log("gigPayment", gigPayment);
+  const gigHours = searchParams.get("gigHours");
+  // console.log("gigHours", gigHours);
+  const mileage = searchParams.get("mileage");
+  // console.log("mileage", mileage);
+  const babysittingHours = searchParams.get("babysittingHours");
+  // console.log("babysittingHours", babysittingHours);
+  const babysittingHourlyRate = searchParams.get("babysittingHourlyRate");
+  // console.log("babysittingHourlyRate", babysittingHourlyRate);
+
+  const [details, toggleDetails] = useState(false);
+
+  const scrollToElement = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    details ? scrollToElement("details") : null;
+  }, [details]);
+
   return (
-    <div>
-      <h2 className="text-center mt-10 font-bold text-lg">{response}</h2>
-      <Link to="/summary" className="text-center mt-10">
-        See Details
-      </Link>
-    </div>
+    <>
+      <div className="h-screen">
+        <h2 className="text-center mt-10 font-bold text-lg">{response}</h2>
+        <button
+          onClick={() => {
+            toggleDetails(true);
+          }}
+        >
+          See Details
+        </button>
+      </div>
+      {details && (
+        <div className="h-screen text-center" id="details">
+          <h1 className="font-bold text-xl">Details</h1>
+          <h2>Here is what you entered:</h2>
+          <p>
+            Ideal Hourly Rate:
+            <span className="font-bold">${idealHourlyRate}</span>
+          </p>
+          <p>
+            Gig Payment:
+            <span className="font-bold">${gigPayment}</span>
+          </p>
+          <p>
+            Gig Hours:
+            <span className="font-bold">{gigHours} Hours</span>
+          </p>
+          <p>
+            Mileage:
+            <span className="font-bold">{mileage} Miles</span>
+          </p>
+          <p>
+            Babysitting Hours:
+            <span className="font-bold">{babysittingHours} Hours</span>
+          </p>
+          <p>
+            Babysitting Hourly Rate:
+            <span className="font-bold">${babysittingHourlyRate}</span>
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 

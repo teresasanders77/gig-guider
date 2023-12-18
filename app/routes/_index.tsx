@@ -6,7 +6,7 @@ import {
 import ShouldITakeThisForm from "../components/shouldITakeThisForm";
 import WhatToChargeForm from "../components/whatToChargeForm";
 import { useState } from "react";
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -52,19 +52,22 @@ export const action: ActionFunction = async ({ request }) => {
     } else {
       answer = "no";
     }
-    // console.log("answer: ", answer);
 
-    return redirect("/answer/" + answer);
+    const queryParams = new URLSearchParams(formData).toString();
+
+    // console.log("answer: ", answer);
+    return redirect("/answer/" + answer + "?" + queryParams);
   }
 };
 
 export default function Index() {
   const [shouldITakeThis, toggleShouldITakeThis] = useState(false);
   const [whatToCharge, toggleWhatToCharge] = useState(false);
+  const fetcher = useFetcher();
 
   return (
     <div>
-      <Form method="post" encType="multipart/form-data">
+      <fetcher.Form method="post" encType="multipart/form-data">
         <div className="mt-20">
           <h1 className="text-4xl text-center">Gig Guider</h1>
           {!shouldITakeThis && !whatToCharge && (
@@ -108,7 +111,7 @@ export default function Index() {
             <WhatToChargeForm />
           </div>
         )}
-      </Form>
+      </fetcher.Form>
     </div>
   );
 }
