@@ -7,6 +7,7 @@ import ShouldITakeThisForm from "../components/shouldITakeThisForm";
 import WhatToChargeForm from "../components/whatToChargeForm";
 import { useState } from "react";
 import { useFetcher } from "@remix-run/react";
+import gigGuider from "../../public/img/GG_landingPage.png";
 
 export const meta: MetaFunction = () => {
   return [
@@ -71,51 +72,55 @@ export default function Index() {
 
   return (
     <div>
-      <fetcher.Form method="post" encType="multipart/form-data">
-        <div className="mt-20">
-          <h1 className="text-4xl text-center">Gig Guider</h1>
-          {!shouldITakeThis && !whatToCharge && (
-            <div className="flex items-center justify-between w-1/2 my-0 mx-auto h-screen">
+      <div
+        className="bg-cover bg-center bg-no-repeat overflow-hidden h-screen relative"
+        style={{ backgroundImage: `url(${gigGuider})` }}
+      >
+        <fetcher.Form method="post" encType="multipart/form-data">
+          <div className="my-0 mx-auto ">
+            {!shouldITakeThis && !whatToCharge && (
+              <div className="flex items-center mt-8 sm:mt-0 justify-between sm:w-3/12 my-0 mx-auto h-screen">
+                <button
+                  onClick={() => {
+                    toggleShouldITakeThis(!shouldITakeThis);
+                  }}
+                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 sm:py-2 sm:px-4 rounded hover:shadow-xl mt-10"
+                >
+                  Should I take this?
+                </button>
+
+                <button
+                  onClick={() => toggleWhatToCharge(!whatToCharge)}
+                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 sm:py-2 sm:px-4 rounded hover:shadow-xl mt-10"
+                >
+                  How much should I charge?
+                </button>
+              </div>
+            )}
+            {shouldITakeThis || whatToCharge ? (
               <button
                 onClick={() => {
-                  toggleShouldITakeThis(!shouldITakeThis);
+                  toggleShouldITakeThis(false);
+                  toggleWhatToCharge(false);
                 }}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-10"
               >
-                Should I take this gig?
+                Back
               </button>
-
-              <button
-                onClick={() => toggleWhatToCharge(!whatToCharge)}
-                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-              >
-                How much should I charge for this gig?
-              </button>
+            ) : null}
+          </div>
+          {shouldITakeThis && (
+            <div>
+              <ShouldITakeThisForm />
             </div>
           )}
-          {shouldITakeThis || whatToCharge ? (
-            <button
-              onClick={() => {
-                toggleShouldITakeThis(false);
-                toggleWhatToCharge(false);
-              }}
-              className="ml-10"
-            >
-              Back
-            </button>
-          ) : null}
-        </div>
-        {shouldITakeThis && (
-          <div>
-            <ShouldITakeThisForm />
-          </div>
-        )}
-        {whatToCharge && (
-          <div>
-            <WhatToChargeForm />
-          </div>
-        )}
-      </fetcher.Form>
+          {whatToCharge && (
+            <div>
+              <WhatToChargeForm />
+            </div>
+          )}
+        </fetcher.Form>
+      </div>
     </div>
   );
 }

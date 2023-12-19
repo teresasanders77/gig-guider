@@ -52,41 +52,44 @@ const Charge = () => {
         <h2>Here is what you entered:</h2>
         <p>
           Ideal Hourly Rate:
-          <span className="font-bold">${idealHourlyRate}</span>
+          <span className="font-bold"> ${idealHourlyRate}</span>
         </p>
         <p>
           Gig Hours:
-          <span className="font-bold">{gigHours} Hours</span>
+          <span className="font-bold"> {gigHours} Hours</span>
         </p>
         <p>
           Mileage:
-          <span className="font-bold">{mileage} Miles</span>
+          <span className="font-bold"> {mileage} Miles</span>
         </p>
         <p>
           Babysitting Hours:
-          <span className="font-bold">{babysittingHours} Hours</span>
+          <span className="font-bold"> {babysittingHours} Hours</span>
         </p>
         <p>
           Babysitting Hourly Rate:
-          <span className="font-bold">${babysittingHourlyRate}</span>
+          <span className="font-bold"> ${babysittingHourlyRate}</span>
         </p>
 
         <h2 className="mt-10">Here how we calculated:</h2>
         <p>
           Gas Cost (Mileage * 2 * 0.67 (IRS Mileage Rate)):
           <span className="font-bold">
+            {" "}
             ${Number(Number(mileage) * 2) * 0.67}
           </span>
         </p>
         <p>
           Babysitting Cost (Babysitting Hours * Babysitting Hourly Rate):
           <span className="font-bold">
+            {" "}
             ${Number(babysittingHours) * Number(babysittingHourlyRate)}
           </span>
         </p>
         <p>
           Total Cost (Gas Cost + Babysitting Cost):
           <span className="font-bold">
+            {" "}
             $
             {Number(Number(mileage) * 2) * 0.67 +
               Number(babysittingHours) * Number(babysittingHourlyRate)}
@@ -95,12 +98,14 @@ const Charge = () => {
         <p>
           Hopeful Income Pre Expense (Ideal Hourly Rate * Gig Hours):
           <span className="font-bold">
+            {" "}
             ${Number(idealHourlyRate) * Number(gigHours)}
           </span>
         </p>
         <p>
           Hopeful Income Total (Hopeful Income Pre Expense + Total Cost):
           <span className="font-bold">
+            {" "}
             $
             {Number(idealHourlyRate) * Number(gigHours) +
               (Number(Number(mileage) * 2) * 0.67 +
