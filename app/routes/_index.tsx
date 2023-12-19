@@ -5,9 +5,10 @@ import {
 } from "@remix-run/node";
 import ShouldITakeThisForm from "../components/shouldITakeThisForm";
 import WhatToChargeForm from "../components/whatToChargeForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetcher } from "@remix-run/react";
-import gigGuider from "../../public/img/GG_landingPage.png";
+import desktopImage from "../../public/img/GG_landingPage.png";
+import mobileImage from "../../public/img/GG_mobile.png";
 
 export const meta: MetaFunction = () => {
   return [
@@ -68,30 +69,53 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Index() {
   const [shouldITakeThis, toggleShouldITakeThis] = useState(false);
   const [whatToCharge, toggleWhatToCharge] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(0);
+  const [img, setImg] = useState(desktopImage);
+  const isClient = typeof window === "object";
   const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (!isClient) {
+      return; // Do nothing if not running on the client side
+    }
+
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isClient]);
+
+  useEffect(() => {
+    screenWidth > 760 ? setImg(desktopImage) : setImg(mobileImage);
+  }, [screenWidth]);
 
   return (
     <div>
       <div
         className="bg-cover bg-center bg-no-repeat overflow-hidden h-screen relative"
-        style={{ backgroundImage: `url(${gigGuider})` }}
+        style={{ backgroundImage: `url(${img})` }}
       >
         <fetcher.Form method="post" encType="multipart/form-data">
           <div className="my-0 mx-auto ">
             {!shouldITakeThis && !whatToCharge && (
-              <div className="flex items-center mt-8 sm:mt-0 justify-between sm:w-3/12 my-0 mx-auto h-screen">
+              <div className="flex flex-col items-center justify-center mt-8 lg:flex-row lg:mt-0 lg:justify-between lg:w-3/6  xl:w-1/4 my-0 mx-auto h-screen">
                 <button
                   onClick={() => {
                     toggleShouldITakeThis(!shouldITakeThis);
                   }}
-                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 sm:py-2 sm:px-4 rounded hover:shadow-xl mt-10"
+                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
                 >
                   Should I take this?
                 </button>
 
                 <button
                   onClick={() => toggleWhatToCharge(!whatToCharge)}
-                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 sm:py-2 sm:px-4 rounded hover:shadow-xl mt-10"
+                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
                 >
                   How much should I charge?
                 </button>
