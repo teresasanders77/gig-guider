@@ -69,7 +69,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Index() {
   const [shouldITakeThis, toggleShouldITakeThis] = useState(false);
   const [whatToCharge, toggleWhatToCharge] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(761);
   const [img, setImg] = useState(desktopImage);
   const isClient = typeof window === "object";
   const fetcher = useFetcher();
@@ -78,11 +78,10 @@ export default function Index() {
     if (!isClient) {
       return; // Do nothing if not running on the client side
     }
-
+    setScreenWidth(window.innerWidth);
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -91,8 +90,12 @@ export default function Index() {
   }, [isClient]);
 
   useEffect(() => {
-    screenWidth > 760 ? setImg(desktopImage) : setImg(mobileImage);
-  }, [screenWidth]);
+    if (screenWidth > 760 && img !== desktopImage) {
+      setImg(desktopImage);
+    } else if (screenWidth <= 760 && img !== mobileImage) {
+      setImg(mobileImage);
+    }
+  }, [img, screenWidth]);
 
   return (
     <div>
