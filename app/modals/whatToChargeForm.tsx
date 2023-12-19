@@ -1,102 +1,139 @@
-const WhatToChargeForm = () => {
+import { Dialog, Transition } from "@headlessui/react";
+import { useFetcher } from "@remix-run/react";
+import { Fragment } from "react";
+
+const WhatToCharge = ({ showModal, setShowModal }) => {
+  const fetcher = useFetcher();
+  const closeModal = () => {
+    setShowModal(false);
+  };
   return (
-    <div className="w-full">
-      <div className="text-center text-xl">
-        What Should I Charge For This Gig?
-      </div>
-      <div className="w-full max-w-lg my-0 mx-auto">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div className="mb-6">
-            <div>
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="idealHourlyRate"
+    <Transition show={showModal} as={Fragment}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-10 overflow-y-auto"
+        onClose={closeModal}
+      >
+        <div className="flex items-center justify-center min-h-screen">
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <div className="bg-white rounded-lg  w-3/4 max-w-2xl p-16">
+              <Dialog.Title className="text-xl font-bold mb-8 text-center">
+                What Should I Charge?
+              </Dialog.Title>
+              <fetcher.Form
+                action="/action"
+                method="post"
+                encType="multipart/form-data"
+                className="max-w-md mx-auto"
               >
-                Ideal Hourly Rate (after expenses)
-              </label>
-              <input
-                className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="idealHourlyRate"
-                name="idealHourlyRate"
-                type="number"
-                placeholder="$"
-              />
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="idealHourlyRate"
+                    name="idealHourlyRate"
+                    type="text"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="idealHourlyRate"
+                  >
+                    Ideal Hourly Rate (after expenses)
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="gigHours"
+                    name="gigHours"
+                    type="number"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="gigHours"
+                  >
+                    Gig Hours (not including driving)
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="mileage"
+                    name="mileage"
+                    type="number"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="mileage"
+                  >
+                    Mileage (One way)
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="babysittingHours"
+                    name="babysittingHours"
+                    type="number"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="babysittingHours"
+                  >
+                    Babysitting Hours
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="babysittingHourlyRate"
+                    name="babysittingHourlyRate"
+                    type="number"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="babysittingHourlyRate"
+                  >
+                    Babysitting Hourly Rate
+                  </label>
+                </div>
+                <div className="flex items-center justify-start mt-10">
+                  <button
+                    className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0 mr-4"
+                    type="submit"
+                    name="_action"
+                    value="whatToCharge"
+                  >
+                    Let's find out...
+                  </button>
+                  <button
+                    className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
+                    onClick={closeModal}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </fetcher.Form>
             </div>
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="gigHours"
-            >
-              Gig Hours (not including driving)
-            </label>
-            <input
-              className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="gigHours"
-              name="gigHours"
-              type="number"
-              placeholder=""
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="mileage"
-            >
-              Mileage (One way)
-            </label>
-            <input
-              className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="mileage"
-              name="mileage"
-              type="number"
-              placeholder=""
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="babysittingHours"
-            >
-              Babysitting Hours
-            </label>
-            <input
-              className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="babysittingHours"
-              name="babysittingHours"
-              type="number"
-              placeholder=""
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="babysittingHourlyRate"
-            >
-              Babysitting Hourly Rate
-            </label>
-            <input
-              className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="babysittingHourlyRate"
-              name="babysittingHourlyRate"
-              type="number"
-              placeholder="$"
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              name="_action"
-              value="whatToCharge"
-            >
-              Submit
-            </button>
-          </div>
+          </Transition.Child>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition>
   );
 };
 
-export default WhatToChargeForm;
+export default WhatToCharge;

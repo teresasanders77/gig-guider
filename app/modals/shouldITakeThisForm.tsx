@@ -25,127 +25,124 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="bg-white rounded-lg overflow-hidden w-3/4 max-w-2xl p-6">
-              <Dialog.Title className="text-xl font-bold mb-4">
-                Should I Take This?
+            <div className="bg-white rounded-lg  w-3/4 max-w-2xl p-16">
+              <Dialog.Title className="text-xl font-bold mb-8 text-center">
+                Should I Take This Gig?
               </Dialog.Title>
               <fetcher.Form
                 action="/action"
                 method="post"
                 encType="multipart/form-data"
+                className="max-w-md mx-auto"
               >
-                <div className="mb-6">
-                  <div>
-                    <label
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                      htmlFor="idealHourlyRate"
-                    >
-                      Ideal Hourly Rate (after expenses)
-                    </label>
-                    <input
-                      className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                      id="idealHourlyRate"
-                      name="idealHourlyRate"
-                      type="number"
-                      placeholder="$"
-                    />
-                  </div>
-                </div>
-                <div className="mb-6">
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="idealHourlyRate"
+                    name="idealHourlyRate"
+                    type="text"
+                    placeholder=""
+                  />
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="idealHourlyRate"
+                  >
+                    Ideal Hourly Rate (after expenses)
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="gigPayment"
+                    name="gigPayment"
+                    type="number"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="gigPayment"
                   >
                     Gig Payment
                   </label>
-                  <input
-                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="gigPayment"
-                    name="gigPayment"
-                    type="number"
-                    placeholder="$"
-                  />
                 </div>
-                <div className="mb-6">
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="gigHours"
-                  >
-                    Gig Hours (not including driving)
-                  </label>
+                <div className="relative z-0 w-full mb-5 group">
                   <input
-                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                     id="gigHours"
                     name="gigHours"
                     type="number"
                     placeholder=""
                   />
-                </div>
-                <div className="mb-6">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="mileage"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="gigHours"
                   >
-                    Mileage (One way)
+                    Gig Hours (not including driving)
                   </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
                   <input
-                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                     id="mileage"
                     name="mileage"
                     type="number"
                     placeholder=""
                   />
-                </div>
-                <div className="mb-6">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="babysittingHours"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="mileage"
                   >
-                    Babysitting Hours
+                    Mileage (One way)
                   </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
                   <input
-                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                     id="babysittingHours"
                     name="babysittingHours"
                     type="number"
                     placeholder=""
                   />
-                </div>
-                <div className="mb-6">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="babysittingHours"
+                  >
+                    Babysitting Hours
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    id="babysittingHourlyRate"
+                    name="babysittingHourlyRate"
+                    type="number"
+                    placeholder=""
+                  />
+                  <label
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-700 dark:text-gg-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="babysittingHourlyRate"
                   >
                     Babysitting Hourly Rate
                   </label>
-                  <input
-                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="babysittingHourlyRate"
-                    name="babysittingHourlyRate"
-                    type="number"
-                    placeholder="$"
-                  />
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-start mt-10">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0 mr-4"
                     type="submit"
                     name="_action"
                     value="shouldITakeThis"
                   >
-                    Submit
+                    Let's find out...
+                  </button>
+                  <button
+                    className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
+                    onClick={closeModal}
+                    type="button"
+                  >
+                    Cancel
                   </button>
                 </div>
               </fetcher.Form>
-
-              <div className="mt-6">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  onClick={closeModal}
-                >
-                  Close
-                </button>
-              </div>
             </div>
           </Transition.Child>
         </div>

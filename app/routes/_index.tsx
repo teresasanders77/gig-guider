@@ -23,7 +23,7 @@ export default function Index() {
   const [whatToCharge, toggleWhatToCharge] = useState(false);
   const [screenWidth, setScreenWidth] = useState(761);
   const [shouldITakeThisModal, setShouldITakeThisModal] = useState(false);
-  const [whatToChargeModalOpen, setWhatToChargeModalOpen] = useState(false);
+  const [whatToChargeModal, setWhatToChargeModal] = useState(false);
 
   const [img, setImg] = useState(desktopImage);
   const isClient = typeof window === "object";
@@ -70,9 +70,9 @@ export default function Index() {
               </button>
 
               <button
-                // onClick={() => {
-                //   openWhatToChargeModal();
-                // }}
+                onClick={() => {
+                  setWhatToChargeModal(true);
+                }}
                 className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
               >
                 How much should I charge?
@@ -96,15 +96,10 @@ export default function Index() {
         showModal={shouldITakeThisModal}
         setShowModal={setShouldITakeThisModal}
       />
-      {/* <Transition.Root show={whatToChargeModalOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeWhatToChargeModal}
-        >
-          <WhatToChargeForm closeModal={closeWhatToChargeModal} />
-        </Dialog>
-      </Transition.Root> */}
+      <WhatToChargeForm
+        showModal={whatToChargeModal}
+        setShowModal={setWhatToChargeModal}
+      />
     </div>
   );
 }
