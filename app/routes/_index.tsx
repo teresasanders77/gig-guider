@@ -3,12 +3,13 @@ import {
   type ActionFunction,
   type MetaFunction,
 } from "@remix-run/node";
-import ShouldITakeThisForm from "../components/shouldITakeThisForm";
-import WhatToChargeForm from "../components/whatToChargeForm";
-import { useEffect, useState } from "react";
+import ShouldITakeThisForm from "../modals/shouldITakeThisForm";
+import WhatToChargeForm from "../modals/whatToChargeForm";
+import { Fragment, useEffect, useState } from "react";
 import { useFetcher } from "@remix-run/react";
 import desktopImage from "../../public/img/GG_landingPage.png";
 import mobileImage from "../../public/img/GG_mobile.png";
+import { Dialog, Transition } from "@headlessui/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,62 +18,15 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const { _action } = Object.fromEntries(formData);
-
-  const idealHourlyRate = formData.get("idealHourlyRate");
-  const gigPayment = formData.get("gigPayment");
-  const gigHours = formData.get("gigHours");
-  const mileage = formData.get("mileage");
-  const babysittingHours = formData.get("babysittingHours");
-  const babysittingHourlyRate = formData.get("babysittingHourlyRate");
-
-  if (_action === "shouldITakeThis") {
-    const gasCost = Number(Number(mileage) * 2) * 0.67;
-    // console.log("gasCost: ", gasCost);
-
-    const babysittingCost =
-      Number(babysittingHours) * Number(babysittingHourlyRate);
-    // console.log("babysittingCost: ", babysittingCost);
-
-    const totalCost = gasCost + babysittingCost;
-    // console.log("totalCost: ", totalCost);
-
-    const hopefulIncomePreExpense = Number(idealHourlyRate) * Number(gigHours);
-    // console.log("hopefulIncomePreExpense: ", hopefulIncomePreExpense);
-
-    const hopefulIncomeTotal = hopefulIncomePreExpense + totalCost;
-    // console.log("hopefulIncomeTotal: ", hopefulIncomeTotal);
-
-    const difference = Number(gigPayment) - hopefulIncomeTotal;
-    // console.log("difference: ", difference);
-
-    let answer;
-    if (difference > 0) {
-      answer = "yes";
-    } else {
-      answer = "no";
-    }
-
-    const queryParams = new URLSearchParams(formData).toString();
-
-    // console.log("answer: ", answer);
-    return redirect("/answer/" + answer + "?" + queryParams);
-  } else if (_action === "whatToCharge") {
-    const queryParams = new URLSearchParams(formData).toString();
-    console.log("queryParams: ", queryParams);
-    return redirect("/charge/?" + queryParams);
-  }
-};
-
 export default function Index() {
   const [shouldITakeThis, toggleShouldITakeThis] = useState(false);
   const [whatToCharge, toggleWhatToCharge] = useState(false);
   const [screenWidth, setScreenWidth] = useState(761);
+  const [shouldITakeThisModal, setShouldITakeThisModal] = useState(false);
+  const [whatToChargeModalOpen, setWhatToChargeModalOpen] = useState(false);
+
   const [img, setImg] = useState(desktopImage);
   const isClient = typeof window === "object";
-  const fetcher = useFetcher();
 
   useEffect(() => {
     if (!isClient) {
@@ -103,51 +57,54 @@ export default function Index() {
         className="bg-cover bg-center bg-no-repeat overflow-hidden h-screen relative"
         style={{ backgroundImage: `url(${img})` }}
       >
-        <fetcher.Form method="post" encType="multipart/form-data">
-          <div className="my-0 mx-auto ">
-            {!shouldITakeThis && !whatToCharge && (
-              <div className="flex flex-col items-center justify-center mt-8 lg:flex-row lg:mt-0 lg:justify-between lg:w-3/6  xl:w-1/4 my-0 mx-auto h-screen">
-                <button
-                  onClick={() => {
-                    toggleShouldITakeThis(!shouldITakeThis);
-                  }}
-                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
-                >
-                  Should I take this?
-                </button>
-
-                <button
-                  onClick={() => toggleWhatToCharge(!whatToCharge)}
-                  className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
-                >
-                  How much should I charge?
-                </button>
-              </div>
-            )}
-            {shouldITakeThis || whatToCharge ? (
+        <div className="my-0 mx-auto ">
+          {!shouldITakeThis && !whatToCharge && (
+            <div className="flex flex-col items-center justify-center mt-8 lg:flex-row lg:mt-0 lg:justify-between lg:w-3/6  xl:w-1/4 my-0 mx-auto h-screen">
               <button
                 onClick={() => {
-                  toggleShouldITakeThis(false);
-                  toggleWhatToCharge(false);
+                  setShouldITakeThisModal(true);
                 }}
-                className="ml-10"
+                className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
               >
-                Back
+                Should I take this?
               </button>
-            ) : null}
-          </div>
-          {shouldITakeThis && (
-            <div>
-              <ShouldITakeThisForm />
+
+              <button
+                // onClick={() => {
+                //   openWhatToChargeModal();
+                // }}
+                className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
+              >
+                How much should I charge?
+              </button>
             </div>
           )}
-          {whatToCharge && (
-            <div>
-              <WhatToChargeForm />
-            </div>
-          )}
-        </fetcher.Form>
+          {shouldITakeThis || whatToCharge ? (
+            <button
+              onClick={() => {
+                toggleShouldITakeThis(false);
+                toggleWhatToCharge(false);
+              }}
+              className="ml-10"
+            >
+              Back
+            </button>
+          ) : null}
+        </div>
       </div>
+      <ShouldITakeThisForm
+        showModal={shouldITakeThisModal}
+        setShowModal={setShouldITakeThisModal}
+      />
+      {/* <Transition.Root show={whatToChargeModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={closeWhatToChargeModal}
+        >
+          <WhatToChargeForm closeModal={closeWhatToChargeModal} />
+        </Dialog>
+      </Transition.Root> */}
     </div>
   );
 }

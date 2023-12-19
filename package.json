@@ -12,6 +12,7 @@
     "clean": "rm -rf ./build"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@prisma/client": "^5.7.1",
     "@remix-run/css-bundle": "^2.4.0",
     "@remix-run/node": "^2.4.0",
