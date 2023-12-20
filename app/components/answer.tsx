@@ -46,19 +46,38 @@ const Answer = ({ data, setShowModal }) => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div
+        className="flex flex-col items-center justify-center h-screen"
+        role="main"
+      >
         {answer === "yes" && (
           <>
-            <h1 className="text-green-700 font-bold text-8xl">YES!</h1>
-            <h2 className={`text-center mt-10 mb-10 font-bold text-2xl `}>
+            <h1
+              className="text-green-700 font-bold text-8xl"
+              aria-label="Yes, you should!"
+            >
+              YES!
+            </h1>
+            <h2
+              className="text-center mt-10 mb-10 font-bold text-2xl"
+              aria-label="Sassy reason for why you should"
+            >
               {returnedResponse}
             </h2>
           </>
         )}
         {answer === "no" && (
           <>
-            <h1 className="text-red-700 font-bold text-8xl">Nope...</h1>
-            <h2 className={`text-center mt-10 mb-10 font-bold text-2xl `}>
+            <h1
+              className="text-red-700 font-bold text-8xl"
+              aria-label="No, you shouldn't."
+            >
+              Nope...
+            </h1>
+            <h2
+              className="text-center mt-10 mb-10 font-bold text-2xl"
+              aria-label="Sassy reason for why you shouldn't "
+            >
               {returnedResponse}
             </h2>
           </>
@@ -68,6 +87,7 @@ const Answer = ({ data, setShowModal }) => {
             setShowModal(true);
           }}
           className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl lg:mt-0"
+          aria-label="Click to see more details"
         >
           See Details
         </button>

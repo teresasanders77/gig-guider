@@ -13,6 +13,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
         onClose={closeModal}
+        aria-labelledby="modal-title"
       >
         <div className="flex items-center justify-center min-h-screen">
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
@@ -25,9 +26,12 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="bg-white rounded-lg  w-3/4 max-w-2xl p-16">
-              <Dialog.Title className="text-xl font-bold mb-8 text-center">
-                <h1>Should I Take This Gig?</h1>
+            <div className="bg-white rounded-lg  w-full sm:w-3/4 sm:max-w-2xl p-16">
+              <Dialog.Title
+                id="modal-title"
+                className="text-xl font-bold mb-8 text-center"
+              >
+                Should I Take This Gig?
               </Dialog.Title>
               <fetcher.Form
                 action="/action"
@@ -35,6 +39,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                 encType="multipart/form-data"
                 className="max-w-md mx-auto"
               >
+                {/* Ideal Hourly Rate  */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
@@ -42,6 +47,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     name="idealHourlyRate"
                     type="text"
                     placeholder=""
+                    aria-labelledby="idealHourlyRate"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -50,6 +56,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     Ideal Hourly Rate (after expenses)
                   </label>
                 </div>
+                {/* Gig Payment */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
@@ -57,6 +64,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     name="gigPayment"
                     type="number"
                     placeholder=""
+                    aria-labelledby="gigPayment"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -65,6 +73,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     Gig Payment
                   </label>
                 </div>
+                {/* Gig Hours */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
@@ -72,6 +81,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     name="gigHours"
                     type="number"
                     placeholder=""
+                    aria-labelledby="gigHours"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -80,6 +90,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     Gig Hours (not including driving)
                   </label>
                 </div>
+                {/* Mileage  */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
@@ -87,6 +98,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     name="mileage"
                     type="number"
                     placeholder=""
+                    aria-labelledby="mileage"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -95,6 +107,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     Mileage (One way)
                   </label>
                 </div>
+                {/* Babysitting Hours */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
@@ -102,6 +115,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     name="babysittingHours"
                     type="number"
                     placeholder=""
+                    aria-labelledby="babysittingHours"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -110,6 +124,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     Babysitting Hours
                   </label>
                 </div>
+                {/* Babysitting Hourly Rate */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
@@ -117,6 +132,7 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     name="babysittingHourlyRate"
                     type="number"
                     placeholder=""
+                    aria-labelledby="babysittingHourlyRate"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -140,7 +156,6 @@ const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
                     onClick={closeModal}
                     type="button"
                     aria-label="Close the modal and cancel the action"
-                    value="cancel"
                   >
                     Cancel
                   </button>

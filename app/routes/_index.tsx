@@ -2,9 +2,9 @@ import { type MetaFunction } from "@remix-run/node";
 import ShouldITakeThisForm from "../modals/shouldITakeThisForm";
 import WhatToChargeForm from "../modals/whatToChargeForm";
 import { useEffect, useState } from "react";
-import desktopImage from "../../public/img/GG_landingPage.png";
-import mobileImage from "../../public/img/GG_mobile.png";
-import answerImage from "../../public/img/GG_answer.jpg";
+import desktopImage from "../../public/img/GG_landingPage.webp";
+import mobileImage from "../../public/img/GG_mobile.webp";
+import answerImage from "../../public/img/GG_answer.webp";
 import { useFetchers } from "@remix-run/react";
 import Answer from "../components/answer";
 import Details from "../modals/details";
@@ -54,7 +54,7 @@ export default function Index() {
       !showAnswer &&
       !showCharge
     ) {
-      setImg(desktopImage);
+      setImg({ desktopImage });
     } else if (
       screenWidth <= 760 &&
       img !== mobileImage &&
@@ -105,16 +105,22 @@ export default function Index() {
   return (
     <>
       <div>
+        <h1 className="sr-only">The Gig Guider</h1>
         <div
           className="bg-cover bg-center bg-no-repeat overflow-hidden h-screen relative"
           style={{ backgroundImage: `url(${img})` }}
+          aria-label="Gig Guider main image, hands on a crystal ball."
         >
           {loading && (
             <div className="flex justify-center items-center h-screen">
-              <div className="rounded-full h-80 w-80 bg-gg-blue-900 animate-ping"></div>
+              <div
+                className="rounded-full h-80 w-80 bg-gg-blue-900 animate-ping"
+                role="status"
+                aria-label="Loading answer..."
+              ></div>
             </div>
           )}
-          <div className="my-0 mx-auto ">
+          <main className="my-0 mx-auto ">
             {showButtons && (
               <div className="flex flex-col items-center justify-center mt-8 lg:flex-row lg:mt-0 lg:justify-between lg:w-3/6  xl:w-1/4 my-0 mx-auto h-screen">
                 <button
@@ -122,15 +128,16 @@ export default function Index() {
                     setShouldITakeThisModal(true);
                   }}
                   className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
+                  aria-label="Open Should I take this modal"
                 >
                   Should I take this?
                 </button>
-
                 <button
                   onClick={() => {
                     setWhatToChargeModal(true);
                   }}
                   className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl mt-2 lg:mt-0"
+                  aria-label="Open How much should I charge modal"
                 >
                   How much should I charge?
                 </button>
@@ -146,7 +153,7 @@ export default function Index() {
                 <Charge data={data} setShowModal={setDetailsModal} />
               </div>
             )}
-          </div>
+          </main>
         </div>
         <ShouldITakeThisForm
           showModal={shouldITakeThisModal}
@@ -160,7 +167,7 @@ export default function Index() {
           showModal={detailsModal}
           setShowModal={setDetailsModal}
           data={data}
-          type={showAnswer == true ? "answer" : "charge"}
+          type={showAnswer ? "answer" : "charge"}
         />
       </div>
     </>

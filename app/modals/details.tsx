@@ -17,11 +17,16 @@ const Details = ({ showModal, setShowModal, data, type }) => {
     <Transition show={showModal} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto "
+        className="fixed inset-0 z-10 overflow-y-auto"
         onClose={closeModal}
+        aria-labelledby="modal-title"
       >
-        <div className="flex items-center justify-center min-h-screen ">
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30 " />
+        <div
+          className="flex items-center justify-center min-h-screen"
+          role="dialog"
+          aria-modal="true"
+        >
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -31,9 +36,15 @@ const Details = ({ showModal, setShowModal, data, type }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="bg-gray-100 rounded-lg  w-4/5 max-w-3xl p-16">
-              <Dialog.Title className="text-xl font-bold mb-8 text-center">
-                <h1>Should I Take This Gig?</h1>
+            <div
+              className="bg-white rounded-lg w-full sm:w-3/4 sm:max-w-2xl p-16"
+              aria-labelledby="details"
+            >
+              <Dialog.Title
+                id="modal-title"
+                className="text-xl font-bold mb-8 text-center"
+              >
+                Should I Take This Gig?
               </Dialog.Title>
               <div className="h-screen text-center " id="details">
                 <h2 className="mb-4 font-bold text-gg-blue-700">
@@ -91,7 +102,7 @@ const Details = ({ showModal, setShowModal, data, type }) => {
                   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                       <table className="min-w-full divide-y divide-gray-300 bg-white">
-                        <thead>
+                        <thead aria-label="Gig Calculations Summary">
                           <tr>
                             <th
                               scope="col"
@@ -229,6 +240,7 @@ const Details = ({ showModal, setShowModal, data, type }) => {
                 <button
                   className=" bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl lg:mt-0 mr-4"
                   onClick={() => location.reload()}
+                  aria-label="Go back to Home"
                 >
                   Back to Home
                 </button>
