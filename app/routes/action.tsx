@@ -1,4 +1,4 @@
-import { ActionFunction, redirect } from "@remix-run/node";
+import { ActionFunction, json, redirect } from "@remix-run/node";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -38,10 +38,8 @@ export const action: ActionFunction = async ({ request }) => {
       answer = "no";
     }
 
-    const queryParams = new URLSearchParams(formData).toString();
-
     // console.log("answer: ", answer);
-    return redirect("/answer/" + answer + "?" + queryParams);
+    return json({ answer: answer });
   } else if (_action === "whatToCharge") {
     const queryParams = new URLSearchParams(formData).toString();
     console.log("queryParams: ", queryParams);
