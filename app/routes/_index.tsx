@@ -8,6 +8,7 @@ import answerImage from "../../public/img/GG_answer.jpg";
 import { useFetchers } from "@remix-run/react";
 import Answer from "../components/answer";
 import Details from "../modals/details";
+import Charge from "../components/charge";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,6 +24,7 @@ export default function Index() {
   const [whatToChargeModal, setWhatToChargeModal] = useState(false);
   const [detailsModal, setDetailsModal] = useState(false);
   const [showAnswer, toggleShowAnswer] = useState(false);
+  const [showCharge, toggleShowCharge] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const fetchers = useFetchers();
@@ -46,9 +48,19 @@ export default function Index() {
   }, [isClient]);
 
   useEffect(() => {
-    if (screenWidth > 760 && img !== desktopImage && !showAnswer) {
+    if (
+      screenWidth > 760 &&
+      img !== desktopImage &&
+      !showAnswer &&
+      !showCharge
+    ) {
       setImg(desktopImage);
-    } else if (screenWidth <= 760 && img !== mobileImage && !showAnswer) {
+    } else if (
+      screenWidth <= 760 &&
+      img !== mobileImage &&
+      !showAnswer &&
+      !showCharge
+    ) {
       setImg(mobileImage);
     } else if (showAnswer) {
       setImg(answerImage);
@@ -61,7 +73,6 @@ export default function Index() {
       fetchers[0]?.formData &&
       data == null
     ) {
-      console.log(fetchers[0].formData.get("idealHourlyRate"));
       setData({
         idealHourlyRate: fetchers[0].formData.get("idealHourlyRate"),
         gigPayment: fetchers[0].formData.get("gigPayment"),
@@ -73,9 +84,6 @@ export default function Index() {
         ),
       });
     }
-  }, [fetchers]);
-
-  useEffect(() => {
     if (fetchers[0]?.state === "submitting") {
       setShouldITakeThisModal(false);
       setWhatToChargeModal(false);
@@ -85,7 +93,11 @@ export default function Index() {
 
       setTimeout(() => {
         setLoading(false);
-        toggleShowAnswer(true);
+        if (fetchers[0]?.formData?.get("_action") == "shouldITakeThis") {
+          toggleShowAnswer(true);
+        } else {
+          toggleShowCharge(true);
+        }
       }, 3000);
     }
   }, [fetchers]);
@@ -129,6 +141,11 @@ export default function Index() {
                 <Answer data={data} setShowModal={setDetailsModal} />
               </div>
             )}
+            {showCharge && (
+              <div className="flex flex-col items-center justify-center mt-8 lg:flex-row lg:mt-0 lg:justify-between lg:w-3/6  xl:w-1/4 my-0 mx-auto h-screen">
+                <Charge data={data} setShowModal={setDetailsModal} />
+              </div>
+            )}
           </div>
         </div>
         <ShouldITakeThisForm
@@ -143,6 +160,7 @@ export default function Index() {
           showModal={detailsModal}
           setShowModal={setDetailsModal}
           data={data}
+          type={showAnswer == true ? "answer" : "charge"}
         />
       </div>
     </>

@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
-const Details = ({ showModal, setShowModal, data }) => {
+const Details = ({ showModal, setShowModal, data, type }) => {
   const closeModal = () => {
     setShowModal(false);
   };
@@ -46,13 +46,15 @@ const Details = ({ showModal, setShowModal, data }) => {
                     ${dataToDisplay.idealHourlyRate}
                   </span>
                 </p>
-                <p className="bg-white flex justify-between p-2 rounded px-10 mb-2">
-                  Gig Payment:
-                  <span className="font-bold">
-                    {" "}
-                    ${dataToDisplay.gigPayment}
-                  </span>
-                </p>
+                {type == "answer" && (
+                  <p className="bg-white flex justify-between p-2 rounded px-10 mb-2">
+                    Gig Payment:
+                    <span className="font-bold">
+                      {" "}
+                      ${dataToDisplay.gigPayment}
+                    </span>
+                  </p>
+                )}
                 <p className="bg-white flex justify-between p-2 rounded px-10 mb-2">
                   Gig Hours:
                   <span className="font-bold">
@@ -152,6 +154,21 @@ const Details = ({ showModal, setShowModal, data }) => {
                                   Number(dataToDisplay.babysittingHourlyRate)}
                             </td>
                           </tr>
+                          {type == "charge" && (
+                            <tr>
+                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                                Hopeful Income Pre Expense
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                Ideal Hourly Rate * Gig Hours
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                $
+                                {Number(dataToDisplay.idealHourlyRate) *
+                                  Number(dataToDisplay.gigHours)}
+                              </td>
+                            </tr>
+                          )}
                           <tr>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                               Hopeful Income Total
@@ -171,26 +188,28 @@ const Details = ({ showModal, setShowModal, data }) => {
                                     ))}
                             </td>
                           </tr>
-                          <tr>
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                              Difference
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              Gig Payment - Hopeful Income Total
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              $
-                              {Number(dataToDisplay.gigPayment) -
-                                (Number(dataToDisplay.idealHourlyRate) *
-                                  Number(dataToDisplay.gigHours) +
-                                  (Number(Number(dataToDisplay.mileage) * 2) *
-                                    0.67 +
-                                    Number(dataToDisplay.babysittingHours) *
-                                      Number(
-                                        dataToDisplay.babysittingHourlyRate
-                                      )))}
-                            </td>
-                          </tr>
+                          {type == "answer" && (
+                            <tr>
+                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                                Difference
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                Gig Payment - Hopeful Income Total
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                $
+                                {Number(dataToDisplay.gigPayment) -
+                                  (Number(dataToDisplay.idealHourlyRate) *
+                                    Number(dataToDisplay.gigHours) +
+                                    (Number(Number(dataToDisplay.mileage) * 2) *
+                                      0.67 +
+                                      Number(dataToDisplay.babysittingHours) *
+                                        Number(
+                                          dataToDisplay.babysittingHourlyRate
+                                        )))}
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>

@@ -1,22 +1,13 @@
-import { useSearchParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
-const Charge = () => {
-  const [searchParams] = useSearchParams();
-  const idealHourlyRate = searchParams.get("idealHourlyRate");
-  const gigHours = searchParams.get("gigHours");
-  const mileage = searchParams.get("mileage");
-  const babysittingHours = searchParams.get("babysittingHours");
-  const babysittingHourlyRate = searchParams.get("babysittingHourlyRate");
+const Charge = ({ data, setShowModal }) => {
+  const idealHourlyRate = data?.idealHourlyRate ?? 0;
+  const gigHours = data?.gigHours ?? 0;
+  const mileage = data?.mileage ?? 0;
+  const babysittingHours = data?.babysittingHours ?? 0;
+  const babysittingHourlyRate = data?.babysittingHourlyRate ?? 0;
 
   const [total, setTotal] = useState(0);
-
-  const scrollToElement = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   useEffect(() => {
     const gasCost = Number(Number(mileage) * 2) * 0.67;
@@ -35,19 +26,25 @@ const Charge = () => {
 
   return (
     <>
-      <div className="h-screen">
-        <h2 className="text-center mt-10 font-bold text-lg">
-          We recommend you charge: ${total}
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="font-bold text-4xl text-center">
+          We recommend you charge:{" "}
+        </h1>
+        <h2
+          className={`text-center mt-10 mb-10 font-bold text-6xl text-green-700`}
+        >
+          ${total}
         </h2>
         <button
           onClick={() => {
-            scrollToElement("details");
+            setShowModal(true);
           }}
+          className="bg-[#001c50] hover:bg-[#00567a] text-white font-bold p-2 lg:py-2 lg:px-4 rounded hover:shadow-xl lg:mt-0"
         >
           See Details
         </button>
       </div>
-      <div className="h-screen text-center" id="details">
+      {/* <div className="h-screen text-center" id="details">
         <h1 className="font-bold text-xl">Details</h1>
         <h2>Here is what you entered:</h2>
         <p>
@@ -112,7 +109,7 @@ const Charge = () => {
                 Number(babysittingHours) * Number(babysittingHourlyRate))}
           </span>
         </p>
-      </div>
+      </div> */}
     </>
   );
 };
