@@ -1,11 +1,25 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 
-const Details = ({ showModal, setShowModal, data, type }) => {
+type DetailsProps = {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  data: {
+    idealHourlyRate: FormDataEntryValue | null;
+    gigPayment: FormDataEntryValue | null;
+    gigHours: FormDataEntryValue | null;
+    mileage: FormDataEntryValue | null;
+    babysittingHours: FormDataEntryValue | null;
+    babysittingHourlyRate: FormDataEntryValue | null;
+  };
+  type: string;
+};
+
+const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
   const closeModal = () => {
     setShowModal(false);
   };
-  let dataToDisplay = {
+  const dataToDisplay = {
     idealHourlyRate: data?.idealHourlyRate ?? 0,
     gigPayment: data?.gigPayment ?? 0,
     gigHours: data?.gigHours ?? 0,

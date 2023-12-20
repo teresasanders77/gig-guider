@@ -1,4 +1,18 @@
-const Answer = ({ data, setShowModal }) => {
+import { Dispatch, SetStateAction } from "react";
+
+type AnswerProps = {
+  data: {
+    idealHourlyRate: FormDataEntryValue | null;
+    gigPayment: FormDataEntryValue | null;
+    gigHours: FormDataEntryValue | null;
+    mileage: FormDataEntryValue | null;
+    babysittingHours: FormDataEntryValue | null;
+    babysittingHourlyRate: FormDataEntryValue | null;
+  };
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
+
+const Answer = ({ data, setShowModal }: AnswerProps) => {
   const gasCost = Number(Number(data.mileage) * 2) * 0.67;
   const babysittingCost =
     Number(data.babysittingHours) * Number(data.babysittingHourlyRate);

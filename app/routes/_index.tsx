@@ -17,6 +17,15 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+type Data = {
+  idealHourlyRate: FormDataEntryValue | null;
+  gigPayment: FormDataEntryValue | null;
+  gigHours: FormDataEntryValue | null;
+  mileage: FormDataEntryValue | null;
+  babysittingHours: FormDataEntryValue | null;
+  babysittingHourlyRate: FormDataEntryValue | null;
+};
+
 export default function Index() {
   const [showButtons, toggleShowButtons] = useState(true);
   const [screenWidth, setScreenWidth] = useState(761);
@@ -26,7 +35,14 @@ export default function Index() {
   const [showAnswer, toggleShowAnswer] = useState(false);
   const [showCharge, toggleShowCharge] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<Data>({
+    idealHourlyRate: null,
+    gigPayment: null,
+    gigHours: null,
+    mileage: null,
+    babysittingHours: null,
+    babysittingHourlyRate: null,
+  });
   const fetchers = useFetchers();
 
   const [img, setImg] = useState(desktopImage);
@@ -54,7 +70,7 @@ export default function Index() {
       !showAnswer &&
       !showCharge
     ) {
-      setImg({ desktopImage });
+      setImg(desktopImage);
     } else if (
       screenWidth <= 760 &&
       img !== mobileImage &&
@@ -65,7 +81,7 @@ export default function Index() {
     } else if (showAnswer) {
       setImg(answerImage);
     }
-  }, [img, screenWidth, showAnswer]);
+  }, [img, screenWidth, showAnswer, showCharge]);
 
   useEffect(() => {
     if (
@@ -100,7 +116,7 @@ export default function Index() {
         }
       }, 3000);
     }
-  }, [fetchers]);
+  }, [data, fetchers]);
 
   return (
     <>

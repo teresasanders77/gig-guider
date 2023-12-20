@@ -1,6 +1,18 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const Charge = ({ data, setShowModal }) => {
+type ChargeProps = {
+  data: {
+    idealHourlyRate: FormDataEntryValue | null;
+    gigPayment: FormDataEntryValue | null;
+    gigHours: FormDataEntryValue | null;
+    mileage: FormDataEntryValue | null;
+    babysittingHours: FormDataEntryValue | null;
+    babysittingHourlyRate: FormDataEntryValue | null;
+  };
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
+
+const Charge = ({ data, setShowModal }: ChargeProps) => {
   const idealHourlyRate = data?.idealHourlyRate ?? 0;
   const gigHours = data?.gigHours ?? 0;
   const mileage = data?.mileage ?? 0;

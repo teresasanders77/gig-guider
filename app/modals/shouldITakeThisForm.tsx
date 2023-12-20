@@ -1,8 +1,16 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useFetcher } from "@remix-run/react";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 
-const ShouldITakeThisForm = ({ showModal, setShowModal }) => {
+type ShouldITakeThisProps = {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
+
+const ShouldITakeThisForm = ({
+  showModal,
+  setShowModal,
+}: ShouldITakeThisProps) => {
   const fetcher = useFetcher();
   const closeModal = () => {
     setShowModal(false);
