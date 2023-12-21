@@ -92,7 +92,6 @@ export const action: ActionFunction = async ({ request }) => {
     if (Object.keys(errors).length > 0) {
       return json({ errors });
     }
-    console.log(data);
     return json({ data });
   }
 };
@@ -162,7 +161,6 @@ export default function Index() {
   }, [img, screenWidth, showAnswer, showCharge]);
 
   useEffect(() => {
-    console.log(data);
     if (data.idealHourlyRate !== null) {
       setShouldITakeThisModal(false);
       setWhatToChargeModal(false);

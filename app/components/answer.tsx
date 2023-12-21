@@ -8,7 +8,7 @@ type AnswerProps = {
 
 const Answer = ({ data, setShowModal }: AnswerProps) => {
   const difference = Number(data.gigPayment) - Number(data.hopefulIncomeTotal);
-  console.log("data: ", data);
+
   let answer;
   if (difference > 0) {
     answer = "yes";

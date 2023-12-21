@@ -215,7 +215,7 @@ test("SITK integration", async ({ page }) => {
   // Fill the form fields
   await page.locator("#idealHourlyRate").fill("75");
   await page.locator("#gigPayment").click();
-  await page.locator("#gigPayment").fill("300");
+  await page.locator("#gigPayment").fill("100");
   await page.locator("#gigHours").click();
   await page.locator("#gigHours").fill("3");
   await page.locator("#mileage").click();
@@ -260,7 +260,7 @@ test("SITK integration", async ({ page }) => {
   answerText = await answerElement.evaluate((element) => {
     return element.textContent;
   });
-  expect(answerText).toBe("Nope...");
+  expect(answerText).toBe("YES!");
 });
 
 test("SITK edge cases", async ({ page }) => {
