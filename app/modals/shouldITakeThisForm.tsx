@@ -13,7 +13,6 @@ const ShouldITakeThisForm = ({
 }: ShouldITakeThisProps) => {
   const fetcher = useFetcher();
   const errors = fetcher?.data?.errors;
-  console.log(errors);
   const closeModal = () => {
     setShowModal(false);
   };

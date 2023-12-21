@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { DataType } from "../globalTypes";
 
 type ChargeProps = {
@@ -7,29 +7,7 @@ type ChargeProps = {
 };
 
 const Charge = ({ data, setShowModal }: ChargeProps) => {
-  const idealHourlyRate = data?.idealHourlyRate ?? 0;
-  const gigHours = data?.gigHours ?? 0;
-  const mileage = data?.mileage ?? 0;
-  const babysittingHours = data?.babysittingHours ?? 0;
-  const babysittingHourlyRate = data?.babysittingHourlyRate ?? 0;
-
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    const gasCost = Number(Number(mileage) * 2) * 0.67;
-    const babysittingCost =
-      Number(babysittingHours) * Number(babysittingHourlyRate);
-    const totalCost = gasCost + babysittingCost;
-    const hopefulIncomePreExpense = Number(idealHourlyRate) * Number(gigHours);
-    setTotal(hopefulIncomePreExpense + totalCost);
-  }, [
-    babysittingHourlyRate,
-    babysittingHours,
-    gigHours,
-    idealHourlyRate,
-    mileage,
-  ]);
-
+  const total = data.hopefulIncomeTotal ?? 0;
   return (
     <>
       <section
@@ -46,7 +24,7 @@ const Charge = ({ data, setShowModal }: ChargeProps) => {
           className="text-center mt-10 mb-10 font-bold text-6xl text-green-700"
           aria-label={`Recommended total amount is $${total}`}
         >
-          ${total}
+          ${Number(total)}
         </h2>
         <button
           onClick={() => {

@@ -8,7 +8,8 @@ type WhatToChargeProps = {
 };
 
 const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
-  const fetcher: ReturnType<typeof useFetcher> = useFetcher();
+  const fetcher = useFetcher();
+  const errors = fetcher?.data?.errors;
   const closeModal = () => {
     setShowModal(false);
   };
@@ -31,35 +32,53 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="bg-white rounded-lg w-full sm:w-3/4 sm:max-w-2xl p-16">
+            <div className="bg-white rounded-lg  w-full sm:w-3/4 sm:max-w-2xl p-16">
               <Dialog.Title
                 id="modal-title"
                 className="text-xl font-bold mb-8 text-center"
               >
-                What Should I Charge?
+                How much should I charge for this gig?
               </Dialog.Title>
               <fetcher.Form
-                action="/action"
+                action="?index"
                 method="post"
                 encType="multipart/form-data"
                 className="max-w-md mx-auto"
+                id="form"
               >
-                {/* Ideal Hourly Rate */}
+                {/* Ideal Hourly Rate  */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
-                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                     id="idealHourlyRate"
                     name="idealHourlyRate"
                     type="number"
                     placeholder=""
-                    aria-describedby="idealHourlyRate"
+                    aria-labelledby="idealHourlyRateLabel"
+                    step="any"
+                    aria-invalid={errors?.idealHourlyRate ? "true" : "false"}
+                    aria-describedby={
+                      errors?.idealHourlyRate
+                        ? "idealHourlyRateError"
+                        : undefined
+                    }
                   />
                   <label
-                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-900 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    id="idealHourlyRateLabel"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="idealHourlyRate"
                   >
                     Ideal Hourly Rate (after expenses)
                   </label>
+                  {errors?.idealHourlyRate ? (
+                    <div
+                      id="idealHourlyRateError"
+                      className="mb-4 pt-1 text-red-700 error-message"
+                      role="alert"
+                    >
+                      *{errors.idealHourlyRate}
+                    </div>
+                  ) : null}
                 </div>
                 {/* Gig Hours */}
                 <div className="relative z-0 w-full mb-5 group">
@@ -69,14 +88,28 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
                     name="gigHours"
                     type="number"
                     placeholder=""
-                    aria-describedby="gigHours"
+                    aria-labelledby="gigHours"
+                    step="any"
+                    aria-invalid={errors?.gigHours ? "true" : "false"}
+                    aria-describedby={
+                      errors?.gigHours ? "gigHoursError" : undefined
+                    }
                   />
                   <label
-                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-900 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="gigHours"
                   >
                     Gig Hours (not including driving)
                   </label>
+                  {errors?.gigHours ? (
+                    <div
+                      className="mb-4 pt-1 text-red-700 error-message"
+                      role="alert"
+                      id="gigHoursError"
+                    >
+                      *{errors.gigHours}
+                    </div>
+                  ) : null}
                 </div>
                 {/* Mileage  */}
                 <div className="relative z-0 w-full mb-5 group">
@@ -86,13 +119,14 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
                     name="mileage"
                     type="number"
                     placeholder=""
-                    aria-describedby="mileage"
+                    aria-labelledby="mileage"
+                    step="any"
                   />
                   <label
-                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-900 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="mileage"
                   >
-                    Mileage (one way)
+                    Mileage (One way)
                   </label>
                 </div>
                 {/* Babysitting Hours */}
@@ -103,10 +137,11 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
                     name="babysittingHours"
                     type="number"
                     placeholder=""
-                    aria-describedby="babysittingHours"
+                    aria-labelledby="babysittingHours"
+                    step="any"
                   />
                   <label
-                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-900 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="babysittingHours"
                   >
                     Babysitting Hours
@@ -120,10 +155,11 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
                     name="babysittingHourlyRate"
                     type="number"
                     placeholder=""
-                    aria-describedby="babysittingHourlyRate"
+                    aria-labelledby="babysittingHourlyRate"
+                    step="any"
                   />
                   <label
-                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-900 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="babysittingHourlyRate"
                   >
                     Babysitting Hourly Rate
@@ -135,7 +171,7 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
                     type="submit"
                     name="_action"
                     value="whatToCharge"
-                    aria-label="Submit to find out if you should take this gig"
+                    aria-label="Submit to find out what you should charge for this gig"
                   >
                     Let&apos;s find out...
                   </button>

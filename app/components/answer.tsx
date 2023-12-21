@@ -7,15 +7,8 @@ type AnswerProps = {
 };
 
 const Answer = ({ data, setShowModal }: AnswerProps) => {
-  const gasCost = Number(Number(data.mileage) * 2) * 0.67;
-  const babysittingCost =
-    Number(data.babysittingHours) * Number(data.babysittingHourlyRate);
-  const totalCost = gasCost + babysittingCost;
-  const hopefulIncomePreExpense =
-    Number(data.idealHourlyRate) * Number(data.gigHours);
-  const hopefulIncomeTotal = hopefulIncomePreExpense + totalCost;
-  const difference = Number(data.gigPayment) - hopefulIncomeTotal;
-
+  const difference = Number(data.gigPayment) - Number(data.hopefulIncomeTotal);
+  console.log("data: ", data);
   let answer;
   if (difference > 0) {
     answer = "yes";

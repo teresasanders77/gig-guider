@@ -22,21 +22,50 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const { _action } = Object.fromEntries(formData);
   const errors: { [key: string]: string } = {};
-
+  const data: DataType = {};
   const idealHourlyRate = formData.get("idealHourlyRate");
   const gigPayment = formData.get("gigPayment");
   const gigHours = formData.get("gigHours");
   const mileage = formData.get("mileage") ?? 0;
   const babysittingHours = formData.get("babysittingHours") ?? 0;
   const babysittingHourlyRate = formData.get("babysittingHourlyRate") ?? 0;
+  data.idealHourlyRate = Number(idealHourlyRate);
+  data.gigPayment = Number(gigPayment);
+  data.gigHours = Number(gigHours);
+  data.mileage = Number(mileage);
+  data.babysittingHours = Number(babysittingHours);
+  data.babysittingHourlyRate = Number(babysittingHourlyRate);
+
+  const gasCost = Number(Number(mileage) * 2) * 0.67;
+  data.gasCost = gasCost;
+
+  const babysittingCost =
+    Number(babysittingHours) * Number(babysittingHourlyRate);
+  data.babysittingCost = babysittingCost;
+
+  const totalCost = gasCost + babysittingCost;
+  data.totalCost = totalCost;
+
+  const hopefulIncomePreExpense = Number(idealHourlyRate) * Number(gigHours);
+  data.hopefulIncomePreExpense = hopefulIncomePreExpense;
+
+  const hopefulIncomeTotal = hopefulIncomePreExpense + totalCost;
+  data.hopefulIncomeTotal = hopefulIncomeTotal;
+
+  if (!idealHourlyRate) {
+    errors.idealHourlyRate = "Required";
+  } else if (Number(idealHourlyRate) < 1) {
+    errors.idealHourlyRate = "Must be greater than 0";
+  }
+
+  if (!gigHours) {
+    errors.gigHours = "Required";
+  } else if (Number(gigHours) < 1) {
+    errors.gigHours = "Must be greater than 0";
+  }
 
   if (_action === "shouldITakeThis") {
-    const data: DataType = { type: "shouldITakeThis" };
-    if (!idealHourlyRate) {
-      errors.idealHourlyRate = "Required";
-    } else if (Number(idealHourlyRate) < 1) {
-      errors.idealHourlyRate = "Must be greater than 0";
-    }
+    data.type = "shouldITakeThis";
 
     if (!gigPayment) {
       errors.gigPayment = "Required";
@@ -44,34 +73,9 @@ export const action: ActionFunction = async ({ request }) => {
       errors.gigPayment = "Must be greater than 0";
     }
 
-    if (!gigHours) {
-      errors.gigHours = "Required";
-    } else if (Number(gigHours) < 1) {
-      errors.gigHours = "Must be greater than 0";
-    }
-
     if (Object.keys(errors).length > 0) {
       return json({ errors });
     }
-    data.idealHourlyRate = idealHourlyRate;
-    data.gigPayment = gigPayment;
-    data.gigHours = gigHours;
-
-    const gasCost = Number(Number(mileage) * 2) * 0.67;
-    data.gasCost = gasCost;
-
-    const babysittingCost =
-      Number(babysittingHours) * Number(babysittingHourlyRate);
-    data.babysittingCost = babysittingCost;
-
-    const totalCost = gasCost + babysittingCost;
-    data.totalCost = totalCost;
-
-    const hopefulIncomePreExpense = Number(idealHourlyRate) * Number(gigHours);
-    data.hopefulIncomePreExpense = hopefulIncomePreExpense;
-
-    const hopefulIncomeTotal = hopefulIncomePreExpense + totalCost;
-    data.hopefulIncomeTotal = hopefulIncomeTotal;
 
     const difference = Number(gigPayment) - hopefulIncomeTotal;
     data.difference = difference;
@@ -84,7 +88,12 @@ export const action: ActionFunction = async ({ request }) => {
     }
     return json({ answer: answer, data: data });
   } else if (_action === "whatToCharge") {
-    return new Response("ok");
+    data.type = "whatToCharge";
+    if (Object.keys(errors).length > 0) {
+      return json({ errors });
+    }
+    console.log(data);
+    return json({ data });
   }
 };
 
@@ -103,7 +112,10 @@ export default function Index() {
     gigPayment: null,
     gigHours: null,
     gasCost: null,
+    mileage: null,
     babysittingCost: null,
+    babysittingHours: null,
+    babysittingHourlyRate: null,
     totalCost: null,
     hopefulIncomePreExpense: null,
     hopefulIncomeTotal: null,
@@ -150,6 +162,7 @@ export default function Index() {
   }, [img, screenWidth, showAnswer, showCharge]);
 
   useEffect(() => {
+    console.log(data);
     if (data.idealHourlyRate !== null) {
       setShouldITakeThisModal(false);
       setWhatToChargeModal(false);

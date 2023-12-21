@@ -13,14 +13,6 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
   const closeModal = () => {
     setShowModal(false);
   };
-  const dataToDisplay: DataType = {
-    idealHourlyRate: data?.idealHourlyRate ?? 0,
-    gigPayment: data?.gigPayment ?? 0,
-    gigHours: data?.gigHours ?? 0,
-    mileage: data?.mileage ?? 0,
-    babysittingHours: data?.babysittingHours ?? 0,
-    babysittingHourlyRate: data?.babysittingHourlyRate ?? 0,
-  };
   return (
     <Transition show={showModal} as={Fragment}>
       <Dialog
@@ -45,7 +37,7 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
             leaveTo="opacity-0 scale-95"
           >
             <div
-              className="bg-white rounded-lg w-full sm:w-3/4 sm:max-w-2xl p-16"
+              className="bg-white rounded-lg w-full sm:w-3/4 sm:max-w-3xl p-16"
               aria-labelledby="details"
             >
               <Dialog.Title
@@ -62,7 +54,7 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                   Ideal Hourly Rate:
                   <span className="font-bold">
                     {" "}
-                    ${String(dataToDisplay.idealHourlyRate)}
+                    ${String(data.idealHourlyRate)}
                   </span>
                 </p>
                 {type == "answer" && (
@@ -70,7 +62,7 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                     Gig Payment:
                     <span className="font-bold">
                       {" "}
-                      ${String(dataToDisplay.gigPayment)}
+                      ${String(data.gigPayment)}
                     </span>
                   </p>
                 )}
@@ -78,28 +70,28 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                   Gig Hours:
                   <span className="font-bold">
                     {" "}
-                    {String(dataToDisplay.gigHours)} Hours
+                    {String(data.gigHours)} Hours
                   </span>
                 </p>
                 <p className="bg-white flex justify-between p-2 rounded px-10 mb-2">
                   Mileage:
                   <span className="font-bold">
                     {" "}
-                    {String(dataToDisplay.mileage)} Miles
+                    {String(data.mileage)} Miles
                   </span>
                 </p>
                 <p className="bg-white flex justify-between p-2 rounded px-10 mb-2">
                   Babysitting Hours:
                   <span className="font-bold">
                     {" "}
-                    {String(dataToDisplay.babysittingHours)} Hours
+                    {String(data.babysittingHours)} Hours
                   </span>
                 </p>
                 <p className="bg-white flex justify-between p-2 rounded px-10 mb-2">
                   Babysitting Hourly Rate:
                   <span className="font-bold">
                     {" "}
-                    ${String(dataToDisplay.babysittingHourlyRate)}
+                    ${String(data.babysittingHourlyRate)}
                   </span>
                 </p>
 
@@ -141,10 +133,7 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                               Mileage * 2 * 0.67 (IRS Mileage Rate)
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              $
-                              {Number(
-                                Number(String(dataToDisplay.mileage)) * 2
-                              ) * 0.67}
+                              ${Number(Number(String(data.mileage)) * 2) * 0.67}
                             </td>
                           </tr>
                           <tr>
@@ -156,10 +145,8 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               $
-                              {Number(String(dataToDisplay.babysittingHours)) *
-                                Number(
-                                  String(dataToDisplay.babysittingHourlyRate)
-                                )}
+                              {Number(String(data.babysittingHours)) *
+                                Number(String(data.babysittingHourlyRate))}
                             </td>
                           </tr>
                           <tr>
@@ -171,14 +158,9 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               $
-                              {Number(
-                                Number(String(dataToDisplay.mileage)) * 2
-                              ) *
-                                0.67 +
-                                Number(String(dataToDisplay.babysittingHours)) *
-                                  Number(
-                                    String(dataToDisplay.babysittingHourlyRate)
-                                  )}
+                              {Number(Number(String(data.mileage)) * 2) * 0.67 +
+                                Number(String(data.babysittingHours)) *
+                                  Number(String(data.babysittingHourlyRate))}
                             </td>
                           </tr>
 
@@ -191,8 +173,8 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               $
-                              {Number(String(dataToDisplay.idealHourlyRate)) *
-                                Number(String(dataToDisplay.gigHours))}
+                              {Number(String(data.idealHourlyRate)) *
+                                Number(String(data.gigHours))}
                             </td>
                           </tr>
 
@@ -205,20 +187,12 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               $
-                              {Number(String(dataToDisplay.idealHourlyRate)) *
-                                Number(String(dataToDisplay.gigHours)) +
-                                (Number(
-                                  Number(String(dataToDisplay.mileage)) * 2
-                                ) *
+                              {Number(String(data.idealHourlyRate)) *
+                                Number(String(data.gigHours)) +
+                                (Number(Number(String(data.mileage)) * 2) *
                                   0.67 +
-                                  Number(
-                                    String(dataToDisplay.babysittingHours)
-                                  ) *
-                                    Number(
-                                      String(
-                                        dataToDisplay.babysittingHourlyRate
-                                      )
-                                    ))}
+                                  Number(String(data.babysittingHours)) *
+                                    Number(String(data.babysittingHourlyRate)))}
                             </td>
                           </tr>
                           {type == "answer" && (
@@ -231,19 +205,13 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 $
-                                {Number(String(dataToDisplay.gigPayment)) -
-                                  (Number(
-                                    String(dataToDisplay.idealHourlyRate)
-                                  ) *
-                                    Number(String(dataToDisplay.gigHours)) +
-                                    (Number(
-                                      Number(String(dataToDisplay.mileage)) * 2
-                                    ) *
+                                {Number(String(data.gigPayment)) -
+                                  (Number(String(data.idealHourlyRate)) *
+                                    Number(String(data.gigHours)) +
+                                    (Number(Number(String(data.mileage)) * 2) *
                                       0.67 +
-                                      Number(dataToDisplay.babysittingHours) *
-                                        Number(
-                                          dataToDisplay.babysittingHourlyRate
-                                        )))}
+                                      Number(data.babysittingHours) *
+                                        Number(data.babysittingHourlyRate)))}
                               </td>
                             </tr>
                           )}
@@ -256,11 +224,10 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                   To make this gig worth it, we recommend you charge:{" "}
                   <span className="text-green-700">
                     $
-                    {Number(dataToDisplay.idealHourlyRate) *
-                      Number(dataToDisplay.gigHours) +
-                      (Number(Number(dataToDisplay.mileage) * 2) * 0.67 +
-                        Number(dataToDisplay.babysittingHours) *
-                          Number(dataToDisplay.babysittingHourlyRate))}
+                    {Number(data.idealHourlyRate) * Number(data.gigHours) +
+                      (Number(Number(data.mileage) * 2) * 0.67 +
+                        Number(data.babysittingHours) *
+                          Number(data.babysittingHourlyRate))}
                   </span>
                 </h2>
                 <button
