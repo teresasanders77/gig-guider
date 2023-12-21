@@ -1,5 +1,3 @@
-export type FormDataEntry = string | number | boolean | null;
-
 export type DataType = {
   type?: string | null;
   idealHourlyRate?: number | FormDataEntryValue | null;

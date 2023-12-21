@@ -150,7 +150,7 @@ export default function Index() {
   }, [img, screenWidth, showAnswer, showCharge]);
 
   useEffect(() => {
-    if (data) {
+    if (data.idealHourlyRate !== null) {
       setShouldITakeThisModal(false);
       setWhatToChargeModal(false);
       setLoading(true);

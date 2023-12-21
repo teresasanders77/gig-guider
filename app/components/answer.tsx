@@ -63,6 +63,7 @@ const Answer = ({ data, setShowModal }: AnswerProps) => {
             <h1
               className="text-green-700 font-bold text-8xl"
               aria-label="Yes, you should!"
+              id="result"
             >
               YES!
             </h1>
@@ -79,6 +80,7 @@ const Answer = ({ data, setShowModal }: AnswerProps) => {
             <h1
               className="text-red-700 font-bold text-8xl"
               aria-label="No, you shouldn't."
+              id="result"
             >
               Nope...
             </h1>

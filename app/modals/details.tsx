@@ -181,21 +181,21 @@ const Details = ({ showModal, setShowModal, data, type }: DetailsProps) => {
                                   )}
                             </td>
                           </tr>
-                          {type == "charge" && (
-                            <tr>
-                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                                Hopeful Income Pre Expense
-                              </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                Ideal Hourly Rate * Gig Hours
-                              </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                $
-                                {Number(String(dataToDisplay.idealHourlyRate)) *
-                                  Number(String(dataToDisplay.gigHours))}
-                              </td>
-                            </tr>
-                          )}
+
+                          <tr>
+                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                              Hopeful Income Pre Expense
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              Ideal Hourly Rate * Gig Hours
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              $
+                              {Number(String(dataToDisplay.idealHourlyRate)) *
+                                Number(String(dataToDisplay.gigHours))}
+                            </td>
+                          </tr>
+
                           <tr>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                               Hopeful Income Total

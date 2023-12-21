@@ -13,6 +13,7 @@ const ShouldITakeThisForm = ({
 }: ShouldITakeThisProps) => {
   const fetcher = useFetcher();
   const errors = fetcher?.data?.errors;
+  console.log(errors);
   const closeModal = () => {
     setShowModal(false);
   };
@@ -47,25 +48,38 @@ const ShouldITakeThisForm = ({
                 method="post"
                 encType="multipart/form-data"
                 className="max-w-md mx-auto"
+                id="form"
               >
                 {/* Ideal Hourly Rate  */}
                 <div className="relative z-0 w-full mb-5 group">
                   <input
-                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gg-blue-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                     id="idealHourlyRate"
                     name="idealHourlyRate"
-                    type="text"
+                    type="number"
                     placeholder=""
-                    aria-labelledby="idealHourlyRate"
+                    aria-labelledby="idealHourlyRateLabel"
+                    step="any"
+                    aria-invalid={errors?.idealHourlyRate ? "true" : "false"}
+                    aria-describedby={
+                      errors?.idealHourlyRate
+                        ? "idealHourlyRateError"
+                        : undefined
+                    }
                   />
                   <label
+                    id="idealHourlyRateLabel"
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     htmlFor="idealHourlyRate"
                   >
                     Ideal Hourly Rate (after expenses)
                   </label>
                   {errors?.idealHourlyRate ? (
-                    <div className="mb-4 pt-1 text-red-700">
+                    <div
+                      id="idealHourlyRateError"
+                      className="mb-4 pt-1 text-red-700 error-message"
+                      role="alert"
+                    >
                       *{errors.idealHourlyRate}
                     </div>
                   ) : null}
@@ -79,6 +93,11 @@ const ShouldITakeThisForm = ({
                     type="number"
                     placeholder=""
                     aria-labelledby="gigPayment"
+                    step="any"
+                    aria-invalid={errors?.gigPayment ? "true" : "false"}
+                    aria-describedby={
+                      errors?.gigPayment ? "gigPaymentError" : undefined
+                    }
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -87,7 +106,11 @@ const ShouldITakeThisForm = ({
                     Gig Payment
                   </label>
                   {errors?.gigPayment ? (
-                    <div className="mb-4 pt-1 text-red-700">
+                    <div
+                      className="mb-4 pt-1 text-red-700 error-message"
+                      role="alert"
+                      id="gigPaymentError"
+                    >
                       *{errors.gigPayment}
                     </div>
                   ) : null}
@@ -101,6 +124,11 @@ const ShouldITakeThisForm = ({
                     type="number"
                     placeholder=""
                     aria-labelledby="gigHours"
+                    step="any"
+                    aria-invalid={errors?.gigHours ? "true" : "false"}
+                    aria-describedby={
+                      errors?.gigHours ? "gigHoursError" : undefined
+                    }
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -109,7 +137,11 @@ const ShouldITakeThisForm = ({
                     Gig Hours (not including driving)
                   </label>
                   {errors?.gigHours ? (
-                    <div className="mb-4 pt-1 text-red-700">
+                    <div
+                      className="mb-4 pt-1 text-red-700 error-message"
+                      role="alert"
+                      id="gigHoursError"
+                    >
                       *{errors.gigHours}
                     </div>
                   ) : null}
@@ -123,6 +155,7 @@ const ShouldITakeThisForm = ({
                     type="number"
                     placeholder=""
                     aria-labelledby="mileage"
+                    step="any"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -140,6 +173,7 @@ const ShouldITakeThisForm = ({
                     type="number"
                     placeholder=""
                     aria-labelledby="babysittingHours"
+                    step="any"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -157,6 +191,7 @@ const ShouldITakeThisForm = ({
                     type="number"
                     placeholder=""
                     aria-labelledby="babysittingHourlyRate"
+                    step="any"
                   />
                   <label
                     className="peer-focus:font-medium absolute text-sm text-gg-blue-900 dark:text-gg-blue-900 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-gg-blue-600 peer-focus:dark:text-gg-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
