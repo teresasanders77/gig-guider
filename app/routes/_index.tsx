@@ -1,4 +1,4 @@
-import { type MetaFunction } from "@remix-run/node";
+import { json, type MetaFunction, ActionFunction } from "@remix-run/node";
 import ShouldITakeThisForm from "../modals/shouldITakeThisForm";
 import WhatToChargeForm from "../modals/whatToChargeForm";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { useFetchers } from "@remix-run/react";
 import Answer from "../components/answer";
 import Details from "../modals/details";
 import Charge from "../components/charge";
+import { DataType } from "../globalTypes";
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,13 +18,74 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-type Data = {
-  idealHourlyRate: FormDataEntryValue | null;
-  gigPayment: FormDataEntryValue | null;
-  gigHours: FormDataEntryValue | null;
-  mileage: FormDataEntryValue | null;
-  babysittingHours: FormDataEntryValue | null;
-  babysittingHourlyRate: FormDataEntryValue | null;
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const { _action } = Object.fromEntries(formData);
+  const errors: { [key: string]: string } = {};
+
+  const idealHourlyRate = formData.get("idealHourlyRate");
+  const gigPayment = formData.get("gigPayment");
+  const gigHours = formData.get("gigHours");
+  const mileage = formData.get("mileage") ?? 0;
+  const babysittingHours = formData.get("babysittingHours") ?? 0;
+  const babysittingHourlyRate = formData.get("babysittingHourlyRate") ?? 0;
+
+  if (_action === "shouldITakeThis") {
+    const data: DataType = { type: "shouldITakeThis" };
+    if (!idealHourlyRate) {
+      errors.idealHourlyRate = "Required";
+    } else if (Number(idealHourlyRate) < 1) {
+      errors.idealHourlyRate = "Must be greater than 0";
+    }
+
+    if (!gigPayment) {
+      errors.gigPayment = "Required";
+    } else if (Number(gigPayment) < 1) {
+      errors.gigPayment = "Must be greater than 0";
+    }
+
+    if (!gigHours) {
+      errors.gigHours = "Required";
+    } else if (Number(gigHours) < 1) {
+      errors.gigHours = "Must be greater than 0";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return json({ errors });
+    }
+    data.idealHourlyRate = idealHourlyRate;
+    data.gigPayment = gigPayment;
+    data.gigHours = gigHours;
+
+    const gasCost = Number(Number(mileage) * 2) * 0.67;
+    data.gasCost = gasCost;
+
+    const babysittingCost =
+      Number(babysittingHours) * Number(babysittingHourlyRate);
+    data.babysittingCost = babysittingCost;
+
+    const totalCost = gasCost + babysittingCost;
+    data.totalCost = totalCost;
+
+    const hopefulIncomePreExpense = Number(idealHourlyRate) * Number(gigHours);
+    data.hopefulIncomePreExpense = hopefulIncomePreExpense;
+
+    const hopefulIncomeTotal = hopefulIncomePreExpense + totalCost;
+    data.hopefulIncomeTotal = hopefulIncomeTotal;
+
+    const difference = Number(gigPayment) - hopefulIncomeTotal;
+    data.difference = difference;
+
+    let answer;
+    if (difference > 0) {
+      answer = "yes";
+    } else {
+      answer = "no";
+    }
+    return json({ answer: answer, data: data });
+  } else if (_action === "whatToCharge") {
+    return new Response("ok");
+  }
 };
 
 export default function Index() {
@@ -35,13 +97,17 @@ export default function Index() {
   const [showAnswer, toggleShowAnswer] = useState(false);
   const [showCharge, toggleShowCharge] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<DataType>({
+    type: null,
     idealHourlyRate: null,
     gigPayment: null,
     gigHours: null,
-    mileage: null,
-    babysittingHours: null,
-    babysittingHourlyRate: null,
+    gasCost: null,
+    babysittingCost: null,
+    totalCost: null,
+    hopefulIncomePreExpense: null,
+    hopefulIncomeTotal: null,
+    difference: null,
   });
   const fetchers = useFetchers();
 
@@ -84,39 +150,30 @@ export default function Index() {
   }, [img, screenWidth, showAnswer, showCharge]);
 
   useEffect(() => {
-    if (
-      fetchers[0]?.state === "submitting" &&
-      fetchers[0]?.formData &&
-      data == null
-    ) {
-      setData({
-        idealHourlyRate: fetchers[0].formData.get("idealHourlyRate"),
-        gigPayment: fetchers[0].formData.get("gigPayment"),
-        gigHours: fetchers[0].formData.get("gigHours"),
-        mileage: fetchers[0].formData.get("mileage"),
-        babysittingHours: fetchers[0].formData.get("babysittingHours"),
-        babysittingHourlyRate: fetchers[0].formData.get(
-          "babysittingHourlyRate"
-        ),
-      });
-    }
-    if (fetchers[0]?.state === "submitting") {
+    if (data) {
       setShouldITakeThisModal(false);
       setWhatToChargeModal(false);
       setLoading(true);
-      setImg(answerImage);
       toggleShowButtons(false);
-
       setTimeout(() => {
         setLoading(false);
-        if (fetchers[0]?.formData?.get("_action") == "shouldITakeThis") {
+        if (data.type == "shouldITakeThis") {
           toggleShowAnswer(true);
         } else {
           toggleShowCharge(true);
         }
       }, 3000);
     }
-  }, [data, fetchers]);
+  }, [data]);
+
+  useEffect(() => {
+    if (fetchers[0]?.state == "submitting") {
+      setImg(answerImage);
+    }
+    if (fetchers[0]?.data?.data) {
+      setData(fetchers[0]?.data?.data);
+    }
+  }, [fetchers]);
 
   return (
     <>

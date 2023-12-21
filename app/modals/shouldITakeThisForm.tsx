@@ -12,6 +12,7 @@ const ShouldITakeThisForm = ({
   setShowModal,
 }: ShouldITakeThisProps) => {
   const fetcher = useFetcher();
+  const errors = fetcher?.data?.errors;
   const closeModal = () => {
     setShowModal(false);
   };
@@ -42,7 +43,7 @@ const ShouldITakeThisForm = ({
                 Should I Take This Gig?
               </Dialog.Title>
               <fetcher.Form
-                action="/action"
+                action="?index"
                 method="post"
                 encType="multipart/form-data"
                 className="max-w-md mx-auto"
@@ -63,6 +64,11 @@ const ShouldITakeThisForm = ({
                   >
                     Ideal Hourly Rate (after expenses)
                   </label>
+                  {errors?.idealHourlyRate ? (
+                    <div className="mb-4 pt-1 text-red-700">
+                      *{errors.idealHourlyRate}
+                    </div>
+                  ) : null}
                 </div>
                 {/* Gig Payment */}
                 <div className="relative z-0 w-full mb-5 group">
@@ -80,6 +86,11 @@ const ShouldITakeThisForm = ({
                   >
                     Gig Payment
                   </label>
+                  {errors?.gigPayment ? (
+                    <div className="mb-4 pt-1 text-red-700">
+                      *{errors.gigPayment}
+                    </div>
+                  ) : null}
                 </div>
                 {/* Gig Hours */}
                 <div className="relative z-0 w-full mb-5 group">
@@ -97,6 +108,11 @@ const ShouldITakeThisForm = ({
                   >
                     Gig Hours (not including driving)
                   </label>
+                  {errors?.gigHours ? (
+                    <div className="mb-4 pt-1 text-red-700">
+                      *{errors.gigHours}
+                    </div>
+                  ) : null}
                 </div>
                 {/* Mileage  */}
                 <div className="relative z-0 w-full mb-5 group">

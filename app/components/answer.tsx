@@ -1,14 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
+import { DataType } from "../globalTypes";
 
 type AnswerProps = {
-  data: {
-    idealHourlyRate: FormDataEntryValue | null;
-    gigPayment: FormDataEntryValue | null;
-    gigHours: FormDataEntryValue | null;
-    mileage: FormDataEntryValue | null;
-    babysittingHours: FormDataEntryValue | null;
-    babysittingHourlyRate: FormDataEntryValue | null;
-  };
+  data: DataType;
   setShowModal: Dispatch<SetStateAction<boolean>>;
 };
 
