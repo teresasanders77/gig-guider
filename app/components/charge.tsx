@@ -23,6 +23,7 @@ const Charge = ({ data, setShowModal }: ChargeProps) => {
         <h2
           className="text-center mt-10 mb-10 font-bold text-6xl text-green-700"
           aria-label={`Recommended total amount is $${total}`}
+          id="result"
         >
           ${Number(total)}
         </h2>

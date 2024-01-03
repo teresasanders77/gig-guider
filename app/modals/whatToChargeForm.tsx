@@ -171,7 +171,7 @@ const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
                     type="submit"
                     name="_action"
                     value="whatToCharge"
-                    aria-label="Submit to find out what you should charge for this gig"
+                    aria-label="Submit to find out how much you should charge for this gig"
                   >
                     Let&apos;s find out...
                   </button>
