@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useFetcher } from "@remix-run/react";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
 type WhatToChargeProps = {
   showModal: boolean;
@@ -9,10 +9,16 @@ type WhatToChargeProps = {
 
 const WhatToCharge = ({ showModal, setShowModal }: WhatToChargeProps) => {
   const fetcher = useFetcher();
-  const errors = fetcher?.data?.errors;
+  const [errors, setErrors] = useState(null);
   const closeModal = () => {
     setShowModal(false);
+    setErrors(null);
   };
+
+  useEffect(() => {
+    setErrors(fetcher?.data?.errors);
+  }, [fetcher?.data?.errors]);
+
   return (
     <Transition show={showModal} as={Fragment}>
       <Dialog
