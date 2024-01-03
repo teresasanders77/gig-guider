@@ -186,6 +186,12 @@ export default function Index() {
     }
   }, [fetchers]);
 
+  useEffect(() => {
+    shouldITakeThisModal || whatToChargeModal
+      ? setImg(answerImage)
+      : setImg(desktopImage);
+  }, [shouldITakeThisModal, whatToChargeModal]);
+
   return (
     <>
       <div>
